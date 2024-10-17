@@ -1,74 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Support</title>
+{% extends 'proyectos/base.html' %}
+{% load static %}
 
-        {% load static %}
+{% block title %}Quienes somos{% endblock %}
 
-    <!-- Vincular el archivo CSS -->
-    <link rel="stylesheet" href="{% static 'proyectos/css/estilos.css' %}">
-    <style>
-        /* Estilos adicionales */
-        .huge-title {
-            font-size: 4em;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .big-paragraph {
-            font-size: 1.5em;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-    </style>
-</head>
-<body>
-    <header class="container-hero">
-        <div class="container hero">
-            <div class="customer-support">
-                <i class="fa-solid fa-headset"></i>
-                <div class="content-customer-support">
-                    <span class="text">Soporte al cliente</span>
-                    <span class="number">123-456-7890</span>
-                </div>
-            </div>
-
-            <div class="container-logo">
-                <i class="fas fa-shield-alt"></i>
-                <h1 class="logo"><a href="/">Proyectos integradores</a></h1>
-            </div>
-
-            <div class="container-user">
-                <i class="fa-solid fa-user"></i>
-            </div>
-        </div>
-    </header>
-
-    <div class="container-navbar">
-        <nav class="navbar container">
-            <i class="fa-solid fa-bars"></i>
-            <ul class="menu">
-                <li><a href="{% url 'home' %}">Inicio</a></li>
-                <li><a href="{% url 'quienes_somos' %}">Quiénes somos?</a></li>
-                <li><a href="">Comentarios</a></li>
-                <li><a href="">I.A proximos</a></li>
-                <li><a href="">Lista de Productos</a></li>
-                <li><a href="">Mas blogs</a></li>
-            </ul>
-
-            <form class="search-form">
-                <input type="search" placeholder="Buscar...">
-                <button class="btn-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
-        </nav>
-    </div>
-
+{% block content %}
     <main>
         <div class="container">
             <div class="row">
@@ -205,3 +140,4 @@
     ></script>
 </body>
 </html>
+{% endblock %}
