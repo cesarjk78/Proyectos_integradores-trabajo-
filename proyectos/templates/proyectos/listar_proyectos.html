@@ -1,54 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'proyectos/css/estilos.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>{% block title %}Lista de Proyectos - Tecsup Vault{% endblock %}</title>
+{% extends 'proyectos/base.html' %}
+{% load static %}
 
-    <script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <header>
-        <div class="container-hero">
-            <div class="container hero">
-                <div class="container-logo">
-                    <i class="fas fa-shield-alt"></i>
-                    <h1 class="logo"><a href="/">Tecsup Vault</a></h1>
-                </div>
-                <div class="container-user">
-                    <a href="{% url 'iniciar_sesion' %}">
-                        <i class="fa-solid fa-user"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
+{% block title %}Proyectos - Tecsup Vault{% endblock %}
 
-        <div class="container-navbar">
-            <nav class="navbar container">
-                <i class="fa-solid fa-bars"></i>
-                <ul class="menu">
-                    <li><a href="{% url 'home' %}">Inicio</a></li>
-                    <li><a href="{% url 'quienes_somos' %}">Quienes somos?</a></li>
-                    <li><a href="#">Comentarios</a></li>
-                    <li><a href="#">I.A proximos</a></li>
-                    <li><a href="#">Lista de Proyectos</a></li>
-                    <li><a href="#">Mas blogs</a></li>
-                </ul>
-
-                <form class="search-form">
-                    <input type="search" placeholder="Buscar..." />
-                    <button class="btn-search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
-            </nav>
-        </div>
-    </header>
-
+{% block content %}
     <main>
         <div class="container">
             <h2 class="huge-title">Lista de Proyectos</h2>
@@ -59,7 +14,6 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ proyecto.titulo }}</h5>
                             <p class="card-text">{{ proyecto.descripcion }}</p>
-                            <!-- Aquí se puede agregar un enlace a más detalles si se desea en el futuro -->
                         </div>
                     </div>
                 </div>
@@ -69,26 +23,6 @@
             </div>
         </div>
     </main>
-
-    <footer class="footer">
-        <div class="container container-footer">
-            <div class="menu-footer">
-                <div class="contact-info">
-                    <p class="title-footer">Información de Contacto</p>
-                    <ul>
-                        <li>Teléfono: 123-456-7890</li>
-                        <li>Email: info@tecsup.com</li>
-                    </ul>
-                </div>
-                <div class="links-footer">
-                    <p class="title-footer">Enlaces Importantes</p>
-                    <ul>
-                        <li><a href="#">Política de privacidad</a></li>
-                        <li><a href="#">Términos y condiciones</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
+{% endblock %}

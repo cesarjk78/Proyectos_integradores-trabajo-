@@ -9,13 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>{% block title %}Tecsup Vault{% endblock %}</title>
 
-    <script
-    src="https://kit.fontawesome.com/81581fb069.js"
-    crossorigin="anonymous"
-></script>
 </head>
 <style>
-    /* Estilos adicionales */
     .huge-title {
         font-size: 4em;
         text-align: center;
@@ -54,7 +49,7 @@
                     <li><a href="{% url 'quienes_somos' %}">Quienes somos?</a></li>
                     <li><a href="#">Comentarios</a></li>
                     <li><a href="#">I.A proximos</a></li>
-                    <li><a href="#">Lista de Proyectos</a></li>
+                    <li><a href="{% url 'proyectos' %}">Lista de Proyectos</a></li>
                     <li><a href="#">Mas blogs</a></li>
                 </ul>
 
@@ -81,18 +76,59 @@
                     <p class="title-footer">Información de Contacto</p>
                     <ul>
                         <li>Teléfono: 123-456-7890</li>
-                        <li>Email: info@tecsup.com</li>
+                        <li>EmaiL: tecsup@.com</li>
                     </ul>
+                    <div class="social-icons">
+                        <span class="facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                        <span class="twitter">
+                            <i class="fa-brands fa-twitter"></i>
+                        </span>
+                        <span class="youtube">
+                            <i class="fa-brands fa-youtube"></i>
+                        </span>
+                        <span class="pinterest">
+                            <i class="fa-brands fa-pinterest-p"></i>
+                        </span>
+                        <span class="instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </span>
+                    </div>
                 </div>
-                <div class="links-footer">
-                    <p class="title-footer">Enlaces Importantes</p>
+
+                <div class="information">
+                    <p class="title-footer">Información</p>
                     <ul>
-                        <li><a href="#">Política de privacidad</a></li>
-                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="#">Acerca de Nosotros</a></li>
                     </ul>
                 </div>
+
+
+                <div class="newsletter">
+                    <p class="title-footer">Boletín informativo</p>
+
+                    <div class="content">
+                        <p>
+                            Tratando de presentar el mejor protecto
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>
+                    Desarrollado por Grupo5A &copy; 2024
+                </p>
+
             </div>
         </div>
     </footer>
+
+    <script
+        src="https://kit.fontawesome.com/81581fb069.js"
+        crossorigin="anonymous"
+    ></script>
 </body>
+</html>
 </html>

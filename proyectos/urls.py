@@ -1,10 +1,11 @@
 from django.urls import path
-from . import views  # Importar las vistas desde el archivo views.py
+from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),  # Ruta para la vista principal de la app
+    path('', views.home, name='home'),  
     path('quienes-somos/', views.quienes_somos, name='quienes_somos'),
     path('iniciar-sesion/', views.iniciar_sesion, name='iniciar_sesion'),
-    path('registrar/', views.crear_usuario, name='registrar'), 
-    path('proyectos/', views.listar_proyectos, name='listar_proyectos'),  # Usar views.listar_proyectos directamente
+    path('registrar/', views.crear_usuario, name='registrar'),
+    path('proyectos/', views.listar_proyectos, name='proyectos'),
+    
 ]
