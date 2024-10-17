@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'proyectos/css/estilos.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>{% block title %}Tecsup Vault{% endblock %}</title>
 
     <script
@@ -37,11 +38,10 @@
                     <h1 class="logo"><a href="/">Tecsup Vault</a></h1>
                 </div>
                 <div class="container-user">
-                    <i class="fa-solid fa-user"></i>
-                    <div>
-                        <span class="text"></span>
-                        <span class="number"></span>
-                    </div>
+                    <a href="{% url 'iniciar_sesion' %}">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    
                 </div>
             </div>
         </div>
