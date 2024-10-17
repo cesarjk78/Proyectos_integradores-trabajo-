@@ -7,12 +7,11 @@ from .models import ProyectoIntegrador
 from django.utils import timezone
 
 def home(request):
-    return render(request, 'proyectos/index.html')  # Asegúrate de que la ruta coincida con la ubicación de tu archivo
+    return render(request, 'proyectos/index.html') 
 
 def quienes_somos(request):
     return render(request, 'proyectos/quienesomos.html') 
 
-#Login
 
 def es_admin(user):
     return user.groups.filter(name='Admin').exists()
@@ -67,5 +66,6 @@ def cerrar_sesion(request):
 
 
 def listar_proyectos(request):
-    proyectos = ProyectoIntegrador.objects.all()  # Obtén todos los proyectos
+    proyectos = ProyectoIntegrador.objects.all()  
     return render(request, 'proyectos/listar_proyectos.html', {'proyectos': proyectos})
+    
