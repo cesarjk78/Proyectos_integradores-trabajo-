@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import ProyectoIntegrador
+from django.utils import timezone
 
 def home(request):
     return render(request, 'proyectos/index.html')  # Asegúrate de que la ruta coincida con la ubicación de tu archivo
@@ -62,3 +64,8 @@ def iniciar_sesion(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect('proyectos/iniciar_sesion.html')
+
+
+def listar_proyectos(request):
+    proyectos = ProyectoIntegrador.objects.all()  # Obtén todos los proyectos
+    return render(request, 'proyectos/listar_proyectos.html', {'proyectos': proyectos})
