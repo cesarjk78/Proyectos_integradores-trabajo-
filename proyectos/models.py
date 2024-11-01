@@ -1,5 +1,7 @@
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ValidationError
 
 class CategoriaProyecto(models.Model):
     nombre = models.CharField(max_length=100)
@@ -8,53 +10,83 @@ class CategoriaProyecto(models.Model):
     def __str__(self):
         return self.nombre
 
+class Año(models.Model):
+    SEMESTRE_CHOICES = [
+        (1, '1'),
+        (2, '2')
+    ]
+    año = models.IntegerField(default=date.today().year)
+    semestre = models.IntegerField(choices=SEMESTRE_CHOICES, default=1)
+
+    class Meta:
+        unique_together = ('año', 'semestre')
+
+    def __str__(self):
+        return f"{self.año} - Semestre {self.semestre}"
+
 class ProyectoIntegrador(models.Model):
-    titulo = models.CharField(max_length=255)
+    titulo = models.CharField(max_length=200)
     descripcion = models.TextField()
-    fecha_presentacion = models.DateField()
-    profesor = models.ForeignKey(User, on_delete=models.CASCADE)
-    categoria = models.ForeignKey(CategoriaProyecto, on_delete=models.CASCADE)
+    año = models.ForeignKey(Año, on_delete=models.CASCADE, null=True, blank=True)
+    imagen = models.ImageField(upload_to='imagenes/', null=True, blank=True)
+    documento = models.FileField(upload_to='documentos/', null=True, blank=True)
+    video = models.FileField(upload_to='videos/', null=True, blank=True)  # Campo para video o mp3
+    url_github = models.URLField(max_length=255, null=True, blank=True)  # Campo para URL de GitHub
+    categoria = models.ForeignKey(CategoriaProyecto, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.titulo
 
-class Documento(models.Model):
-    TIPO_DOCUMENTO = [
-        ('documento', 'Documento'),
-        ('imagen', 'Imagen'),
-        ('video', 'Video'),
-    ]
-    nombre = models.CharField(max_length=255)
-    tipo = models.CharField(max_length=10, choices=TIPO_DOCUMENTO)
-    url = models.URLField()
-    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE)
+class Seccion(models.Model):
+    nombre = models.CharField(max_length=10)
 
     def __str__(self):
         return self.nombre
 
-class AlumnoProyecto(models.Model):
-    alumno = models.CharField(max_length=255)
-    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE)
-    fecha_descarga = models.DateTimeField()
+class Grupo(models.Model):
+    nombre = models.CharField(max_length=50)
+    seccion = models.ForeignKey(Seccion, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.alumno} - {self.proyecto}"
+        return self.nombre
+
+class Alumno(models.Model):
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, null=True, blank=True)
+    seccion = models.ForeignKey(Seccion, on_delete=models.CASCADE, null=True, blank=True)
+    año = models.ForeignKey(Año, on_delete=models.CASCADE, null=True, blank=True)  # Nuevo campo
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} - {self.año}"
+
+class AlumnoProyecto(models.Model):
+    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE, null=True, blank=True)
+    grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, null=True, blank=True)
+    seccion = models.ForeignKey(Seccion, on_delete=models.CASCADE, null=True, blank=True)
+    año = models.ForeignKey(Año, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        unique_together = ('proyecto', 'grupo')
 
 class Comentario(models.Model):
     contenido = models.TextField()
-    fecha_comentario = models.DateTimeField(auto_now_add=True)
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.usuario} - {self.fecha_comentario}"
+    fecha_comentario = models.DateTimeField(null=True, blank=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE, null=True, blank=True)
 
 class HistorialProyecto(models.Model):
-    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE)
-    titulo = models.CharField(max_length=255)
-    descripcion = models.TextField()
-    fecha_actualizacion = models.DateTimeField(auto_now_add=True)
-    version = models.IntegerField()
+    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE, null=True, blank=True)
+    titulo = models.CharField(max_length=255, default="")
+    descripcion = models.TextField(default="")
+    fecha_actualizacion = models.DateTimeField(null=True, blank=True)
+    version = models.IntegerField(default=1)
 
-    def __str__(self):
-        return f"Version {self.version} - {self.titulo}"
+class Valoracion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE, null=True, blank=True)
+    estrellas = models.IntegerField(default=0)
+
+    def clean(self):
+        if not (0 <= self.estrellas <= 5):
+            raise ValidationError("El valor de estrellas debe estar entre 0 y 5.")
