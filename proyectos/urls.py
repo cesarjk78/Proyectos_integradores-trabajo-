@@ -7,5 +7,5 @@ urlpatterns = [
     path('iniciar-sesion/', views.iniciar_sesion, name='iniciar_sesion'),
     path('registrar/', views.crear_usuario, name='registrar'),
     path('proyectos/', views.listar_proyectos, name='proyectos'),
-    
+    path('detalle/<int:proyecto_id>/', views.detalles_proyecto, name='detalles_proyecto'), 
 ]

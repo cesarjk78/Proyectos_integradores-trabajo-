@@ -82,11 +82,9 @@ class HistorialProyecto(models.Model):
     fecha_actualizacion = models.DateTimeField(null=True, blank=True)
     version = models.IntegerField(default=1)
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 class Valoracion(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     proyecto = models.ForeignKey(ProyectoIntegrador, on_delete=models.CASCADE, null=True, blank=True)
-    estrellas = models.IntegerField(default=0)
-
-    def clean(self):
-        if not (0 <= self.estrellas <= 5):
-            raise ValidationError("El valor de estrellas debe estar entre 0 y 5.")
+    estrellas = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])

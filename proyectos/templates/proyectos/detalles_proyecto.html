@@ -1,0 +1,48 @@
+{% extends 'proyectos/base.html' %}
+{% load static %}
+
+{% block title %}Detalles del Proyecto - Tecsup Vault{% endblock %}
+
+{% block content %}
+    <main>
+        <div class="container mt-5">
+            <!-- Título y foto del proyecto -->
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="display-3 font-weight-bold text-primary">{{ proyecto.titulo }}</h2>
+                    <img src="{{ proyecto.imagen.url }}" alt="{{ proyecto.titulo }}" class="img-fluid rounded shadow-lg mb-4">
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-lg border-info">
+                        <div class="card-body">
+                            <h4 class="card-title text-center text-info font-weight-bold">Información del Proyecto</h4>
+                            <p><strong class="text-danger">Año:</strong> <span class="text-dark">{{ proyecto.año }}</span></p>
+                            <p><strong class="text-danger">Semestre:</strong> <span class="text-dark">{{ proyecto.año.semestre }}</span></p>
+                            <p><strong class="text-danger">Categoría:</strong> <span class="text-dark">{{ proyecto.categoria.nombre }}</span></p>
+                            <p><strong class="text-danger">GitHub:</strong> <a href="{{ proyecto.url_github }}" target="_blank" class="text-primary">{{ proyecto.url_github }}</a></p>
+                            {% if proyecto.documento %}
+                                <p><strong class="text-danger">Documento:</strong> <a href="{{ proyecto.documento.url }}" target="_blank" class="text-primary">Ver Documento</a></p>
+                            {% endif %}
+                            {% if proyecto.video %}
+                                <p><strong class="text-danger">Video:</strong> <a href="{{ proyecto.video.url }}" target="_blank" class="text-primary">Ver Video</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Descripción del Proyecto -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h4 class="display-4 text-dark">Descripción:</h4>
+                    <p class="lead">{{ proyecto.descripcion }}</p>
+                </div>
+            </div>
+
+            <!-- Botón para volver -->
+            <div class="mt-4 text-center">
+                <a href="{% url 'proyectos' %}" class="btn btn-lg btn-danger text-white rounded-pill shadow-sm">Volver a la lista de proyectos</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

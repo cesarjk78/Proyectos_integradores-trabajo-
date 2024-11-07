@@ -4,25 +4,63 @@
 {% block title %}Proyectos - Tecsup Vault{% endblock %}
 
 {% block content %}
-    <main>
-        <div class="container">
-            <h2 class="huge-title">Lista de Proyectos</h2>
-            <div class="row">
-                {% for proyecto in proyectos %}
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ proyecto.titulo }}</h5>
-                            <p class="card-text">{{ proyecto.descripcion }}</p>
-                        </div>
-                    </div>
-                </div>
-                {% empty %}
-                <p>No hay proyectos disponibles.</p>
-                {% endfor %}
+<main>
+    <div class="container">
+        <h2 class="huge-title">Lista de Proyectos</h2>
+
+        <!-- Barra de búsqueda y filtros -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form method="GET" class="form-inline">
+                    <input type="text" class="form-control mr-2" name="search" placeholder="Buscar por título" value="{{ request.GET.search }}">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                </form>
+            </div>
+
+            <!-- Filtros -->
+            <div class="col-md-6 text-right">
+                <form method="GET" class="form-inline">
+                    <!-- Filtro por Año -->
+                    <select name="año" class="form-control mr-2">
+                        <option value="">Seleccionar Año</option>
+                        {% for año in años %}
+                            <option value="{{ año.año }}" {% if request.GET.año == año.año|stringformat:"s" %}selected{% endif %}>{{ año.año }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <!-- Filtro por Orden -->
+                    <select name="orden" class="form-control mr-2">
+                        <option value="titulo_asc" {% if request.GET.orden == 'titulo_asc' %}selected{% endif %}>Ordenar por Título (A-Z)</option>
+                        <option value="titulo_desc" {% if request.GET.orden == 'titulo_desc' %}selected{% endif %}>Ordenar por Título (Z-A)</option>
+                        <option value="año_asc" {% if request.GET.orden == 'año_asc' %}selected{% endif %}>Ordenar por Año (Ascendente)</option>
+                        <option value="año_desc" {% if request.GET.orden == 'año_desc' %}selected{% endif %}>Ordenar por Año (Descendente)</option>
+                        <option value="semestre_asc" {% if request.GET.orden == 'semestre_asc' %}selected{% endif %}>Ordenar por Semestre (Ascendente)</option>
+                        <option value="semestre_desc" {% if request.GET.orden == 'semestre_desc' %}selected{% endif %}>Ordenar por Semestre (Descendente)</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Aplicar Filtro</button>
+                </form>
             </div>
         </div>
-    </main>
-</body>
-</html>
+
+        <!-- Proyectos -->
+        <div class="row">
+            {% for proyecto in proyectos %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <!-- Imagen del proyecto con un tamaño fijo para mejor alineación -->
+                    <img src="{{ proyecto.imagen.url }}" class="card-img-top" alt="{{ proyecto.titulo }}" style="height: 200px; object-fit: cover;">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ proyecto.titulo }}</h5>
+                        <p class="card-text">{{ proyecto.descripcion|truncatewords:20 }}</p>
+                        <a href="{% url 'detalles_proyecto' proyecto.id %}" class="btn btn-info">Ver más detalles</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No hay proyectos disponibles.</p>
+            {% endfor %}
+        </div>
+    </div>
+</main>
 {% endblock %}

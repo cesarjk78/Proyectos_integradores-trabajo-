@@ -65,7 +65,52 @@ def cerrar_sesion(request):
     return redirect('proyectos/iniciar_sesion.html')
 
 
+from django.shortcuts import render
+from .models import ProyectoIntegrador, Año
+
 def listar_proyectos(request):
-    proyectos = ProyectoIntegrador.objects.all()  
-    return render(request, 'proyectos/listar_proyectos.html', {'proyectos': proyectos})
+    # Obtener todos los proyectos inicialmente
+    proyectos = ProyectoIntegrador.objects.all()
+
+    # Obtener todos los años disponibles para el filtro
+    años = Año.objects.all()
+
+    # Filtro por Año
+    año = request.GET.get('año')
+    if año:
+        proyectos = proyectos.filter(año__año=año)
+
+    # Filtro por Orden
+    orden = request.GET.get('orden')
+    if orden == 'titulo_asc':
+        proyectos = proyectos.order_by('titulo')
+    elif orden == 'titulo_desc':
+        proyectos = proyectos.order_by('-titulo')
+    elif orden == 'año_asc':
+        proyectos = proyectos.order_by('año__año')
+    elif orden == 'año_desc':
+        proyectos = proyectos.order_by('-año__año')
+    elif orden == 'semestre_asc':
+        proyectos = proyectos.order_by('año__semestre')
+    elif orden == 'semestre_desc':
+        proyectos = proyectos.order_by('-año__semestre')
+
+    # Filtro de búsqueda por título
+    search = request.GET.get('search')
+    if search:
+        proyectos = proyectos.filter(titulo__icontains=search)
+
+    return render(request, 'proyectos/listar_proyectos.html', {
+        'proyectos': proyectos,
+        'años': años,  # Pasamos los años al contexto
+    })
+
+
+
+
+from django.shortcuts import render, get_object_or_404
+
+def detalles_proyecto(request, proyecto_id):
+    proyecto = get_object_or_404(ProyectoIntegrador, pk=proyecto_id)
+    return render(request, 'proyectos/detalles_proyecto.html', {'proyecto': proyecto})
     
